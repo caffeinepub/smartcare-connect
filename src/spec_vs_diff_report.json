@@ -1,0 +1,196 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-10T02:17:32.003Z",
+  "summary": "The diff adds a new Motoko backend actor with basic models/state maps plus a new TanStack Router-based frontend with dashboards/components for patient profile, vitals entry/listing, medications, appointments, family access management, SOS, home nurse booking form, and a curated FAQ dataset. However, several BuildRequest requirements are either not evidenced in the truncated diff (notably doctor views, abnormal-vitals detection/thresholds, full CRUD, and chatbot UI/disclaimers), and some implemented elements appear outside scope (e.g., caffeine.ai promotional footer, temperature vitals, access-control secret token initialization).",
+  "missing_requirements": [
+    {
+      "id": "REQ-2",
+      "requirement": "Backend persistence for patient-doctor relationships (one patient to one or more doctors/clinicians) and retrieval APIs.",
+      "reason": "Backend shows only a single optional primaryDoctor field on PatientProfile and does not provide evidence of linking a patient to one or more doctors/clinicians or related retrieval methods (diff is truncated and no explicit relationship APIs are shown).",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "requirement": "Backend vitals readings model must support timestamp, type, value, and optional notes/source.",
+      "reason": "VitalsReading is defined with fixed fields (heartRate, bloodPressure as Text, temperature) and no 'type', 'value', 'notes', or 'source' fields are evidenced.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/components/vitals/VitalsEntryForm.tsx",
+        "frontend/src/components/vitals/VitalsList.tsx"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Patient can add a vitals reading manually for supported types (BP systolic/diastolic, glucose, SpO2, heart rate).",
+      "reason": "Vitals entry UI only includes heart rate, blood pressure, and temperature; no glucose or SpO2 inputs are evidenced.",
+      "evidence": [
+        "frontend/src/components/vitals/VitalsEntryForm.tsx"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "requirement": "Doctor/Clinician dashboard with patient roster, patient detail view, vitals timeline/table, and alert feed for emergency and abnormal-vitals events.",
+      "reason": "Routes reference DoctorDashboard and PatientDetail, but no doctor dashboard/detail components are included in the provided diff summary; no patient roster, alert feed, or vitals timeline/table for doctors is evidenced.",
+      "evidence": [
+        "frontend/src/App.tsx"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "requirement": "Doctor can acknowledge/mark alerts as reviewed (persisted in backend).",
+      "reason": "Alert data type is shown, but no evidence of a 'reviewed/acknowledged' field or an update/acknowledge method in the backend, nor UI to mark reviewed, is present in the diff summary.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "requirement": "Configurable per-patient thresholds for each vitals type with sensible defaults.",
+      "reason": "No threshold model/storage is evidenced in backend state/maps or types; vitals detection rules are not shown.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "requirement": "When a new vitals reading is saved, backend evaluates thresholds and creates an abnormal-vitals notification event tied to the patient and reading.",
+      "reason": "No evidence of threshold evaluation or creation of abnormal-vitals notification events on vitals save is shown (backend is truncated and no such logic is evidenced).",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "requirement": "Medication reminders CRUD (create, update, list, delete) including schedule time(s) per day and start/end or active flag.",
+      "reason": "Frontend panel shows add + delete only; the MedicationReminder model uses 'frequency' and 'nextDue' but does not evidence time(s) per day nor start/end/active flag, and update/edit UI is not evidenced.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/components/medications/MedicationRemindersPanel.tsx"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "requirement": "Follow-up appointment CRUD (create, update, list, delete) including date/time and notes/location/link.",
+      "reason": "Frontend panel shows add + delete; appointment model and form include dateTime and reason, but no notes/location/link fields are evidenced, and update/edit is not evidenced.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/components/appointments/AppointmentsPanel.tsx"
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "requirement": "Family member dashboard: list of patients who granted access, open patient view with recent vitals + alerts + upcoming reminders/appointments in read-only mode, and enforce inability to modify data.",
+      "reason": "Routes reference FamilyDashboard and FamilyPatientStatus, but no family dashboard/status page implementations are included in the diff summary. Only a patient-side access manager component is shown.",
+      "evidence": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/patient/FamilyAccessManager.tsx"
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "requirement": "Doctors can view booking requests for linked patients and mark them as reviewed.",
+      "reason": "A patient-side home nurse booking form is present, but no doctor-side UI or backend-reviewed/mark-reviewed capability is evidenced in the diff summary.",
+      "evidence": [
+        "frontend/src/components/patient/HomeNurseBookingForm.tsx",
+        "frontend/src/App.tsx",
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "requirement": "In-app Health Q&A chatbot UI with disclaimer text and safe fallback for unknown questions (no external API).",
+      "reason": "A curated FAQ dataset is added, and a route references HealthChat, but the chat UI implementation and required disclaimer/fallback behavior are not evidenced in the diff summary.",
+      "evidence": [
+        "frontend/src/App.tsx",
+        "frontend/src/content/healthFaq.ts"
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "requirement": "Coherent, distinct visual theme applied consistently; avoid blue/purple default look; accessible alert states.",
+      "reason": "AlertStyles provides severity classes, but there is no broader theme definition evidenced (e.g., CSS variables/palette/typography) beyond component usage; theme consistency across pages cannot be confirmed from the diff summary.",
+      "evidence": [
+        "frontend/src/components/theme/AlertStyles.tsx",
+        "frontend/src/index.css",
+        "frontend/src/App.tsx"
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "requirement": "Hero/banner illustration displayed on landing/login screen (smartcare-hero.dim_1600x900.png).",
+      "reason": "Logo and some icons are referenced, but there is no evidence of the hero/banner asset being referenced or displayed; LandingLogin component is referenced but not shown in the diff summary.",
+      "evidence": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/app/AppHeader.tsx"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Promotional footer linking to caffeine.ai with tracking parameters.",
+      "reason": "BuildRequest does not request external promotional branding/links; footer includes 'Built with love using caffeine.ai' and UTM parameters.",
+      "evidence": [
+        "frontend/src/App.tsx"
+      ]
+    },
+    {
+      "description": "Vitals support for temperature reading and temperature display.",
+      "reason": "BuildRequest vitals types are BP systolic/diastolic, glucose, SpO2, heart rate; temperature is not requested while glucose/SpO2 are missing in the evidenced UI.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/components/vitals/VitalsEntryForm.tsx",
+        "frontend/src/components/vitals/VitalsList.tsx"
+      ]
+    },
+    {
+      "description": "Access-control initialization via a secret token read from URL parameter (caffeineAdminToken) and calling a privileged actor method.",
+      "reason": "BuildRequest does not mention admin-token URL parameters or initializing access control via secret; this introduces an unrequested authorization mechanism.",
+      "evidence": [
+        "frontend/src/hooks/useActor.ts"
+      ]
+    }
+  ],
+  "confidence": 0.63,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/app/AppHeader.tsx",
+    "frontend/src/components/appointments/AppointmentsPanel.tsx",
+    "frontend/src/components/medications/MedicationRemindersPanel.tsx",
+    "frontend/src/components/patient/ConnectedDevicesEditor.tsx",
+    "frontend/src/components/patient/FamilyAccessManager.tsx",
+    "frontend/src/components/patient/HomeNurseBookingForm.tsx",
+    "frontend/src/components/patient/PatientProfileCard.tsx",
+    "frontend/src/components/patient/SOSButton.tsx",
+    "frontend/src/components/theme/AlertStyles.tsx",
+    "frontend/src/components/vitals/VitalsEntryForm.tsx",
+    "frontend/src/components/vitals/VitalsList.tsx",
+    "frontend/src/content/healthFaq.ts",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useCurrentUserProfile.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/hooks/useRoleRouting.ts",
+    "frontend/src/index.css",
+    "frontend/src/lib/chatbot.ts",
+    "frontend/src/main.tsx",
+    "frontend/src/pages/HealthChat.tsx",
+    "frontend/src/pages/LandingLogin.tsx",
+    "frontend/src/pages/OnboardingRole.tsx",
+    "frontend/src/pages/doctor/DoctorDashboard.tsx",
+    "frontend/src/pages/doctor/PatientDetail.tsx",
+    "frontend/src/pages/family/FamilyDashboard.tsx",
+    "frontend/src/pages/family/FamilyPatientStatus.tsx",
+    "frontend/src/pages/patient/PatientDashboard.tsx",
+    "frontend/src/utils/urlParams.ts",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

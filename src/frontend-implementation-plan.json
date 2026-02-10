@@ -1,0 +1,413 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "SmartCare Connect MVP (Frontend Implementation Plan)",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Internet Identity sign-in with role-based onboarding and protected dashboards (Patient/Doctor/Family Member).",
+      "acceptanceCriteria": [
+        "User can sign in with Internet Identity.",
+        "On first login, user selects a role: Patient, Doctor/Clinician, or Family Member.",
+        "After role selection, user is routed to the corresponding dashboard on subsequent logins.",
+        "Unauthenticated users cannot access dashboards."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "create",
+          "description": "Create the top-level app shell and routing that: (1) renders a public landing/login screen, (2) guards role dashboards behind authentication, and (3) routes authenticated users to the correct dashboard based on backend user profile role. Use shadcn-ui building blocks for layout composition (do not modify frontend/src/components/ui). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/index.css",
+          "operation": "create",
+          "description": "Create src-level CSS import file expected by frontend/src/main.tsx; include Tailwind directives and/or import from existing frontend/index.css so styling loads correctly without changing immutable frontend/src/main.tsx."
+        },
+        {
+          "path": "frontend/src/components/auth/RequireAuth.tsx",
+          "operation": "create",
+          "description": "Add an auth guard component that blocks unauthenticated access (uses useInternetIdentity identity state) and redirects to the landing/login screen; handle loading/initializing states gracefully. Use shadcn-ui primitives for consistent messaging. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/RoleGate.tsx",
+          "operation": "create",
+          "description": "Add a role gate that reads the caller user profile via the actor (getCallerUserProfile) and routes to the appropriate dashboard (patient/doctor/family). Show access denied or onboarding when role/profile is missing. Use shadcn-ui components for empty/error states. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/LandingLogin.tsx",
+          "operation": "create",
+          "description": "Create landing/login page that uses Internet Identity login/logout via the immutable hook (useInternetIdentity) and shows the generated hero/banner image and logo. Use shadcn-ui card/button components for the login panel. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/OnboardingRole.tsx",
+          "operation": "create",
+          "description": "Create first-login onboarding that collects display name and role (Patient/Doctor/Family Member) and saves to backend (saveCallerUserProfile). For Family Member role, collect required target patient principal string to populate the role payload. Use shadcn-ui form inputs/dialog/card components. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/app/AppHeader.tsx",
+          "operation": "create",
+          "description": "Create a reusable authenticated header that shows app branding (uses generated logo), current user display name (from cached user profile), and a logout control that clears react-query cache (queryClient.clear()) when logging out (per authorization component guidance). Use shadcn-ui navigation/dropdown components. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useCurrentUserProfile.ts",
+          "operation": "create",
+          "description": "Add react-query hooks to fetch and cache getCallerUserProfile with proper enabled/isFetched handling to avoid onboarding modal/page flash (per authorization component guidance). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useRoleRouting.ts",
+          "operation": "create",
+          "description": "Add a small helper hook that maps backend UserProfile.role variants to route paths and is used by App routing + RoleGate to keep role routing consistent."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Patient dashboard: profile, connected devices config list, manual vitals entry with icons, upcoming meds/appointments, and SOS.",
+      "acceptanceCriteria": [
+        "Patient can view and edit basic profile fields relevant to monitoring (e.g., display name, care team).",
+        "Patient can add/edit/remove a list of 'connected devices' entries (name/type) as configuration.",
+        "Patient can add a vitals reading manually for supported types (BP systolic/diastolic, glucose, SpO2, heart rate).",
+        "Patient can see a list of upcoming medication reminders and follow-up appointments pulled from backend.",
+        "Pressing SOS creates an emergency alert event stored in backend and visible to the assigned doctor(s)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/patient/PatientDashboard.tsx",
+          "operation": "create",
+          "description": "Create the Patient dashboard page composed of: profile summary/edit, connected devices editor, vitals entry + recent readings, upcoming medication reminders, upcoming follow-up appointments, and an SOS panel. Use shadcn-ui cards/tabs/alerts/forms to keep the UI coherent. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/patient/PatientProfileCard.tsx",
+          "operation": "create",
+          "description": "Create patient profile view/edit card that loads and saves PatientProfile via backend (getPatientProfile/savePatientProfile). Use shadcn-ui form components and show validation/errors. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/patient/ConnectedDevicesEditor.tsx",
+          "operation": "create",
+          "description": "Create a configurable list editor for PatientProfile.connectedDevices (add/edit/remove entries). Use shadcn-ui inputs, buttons, and list styling. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/vitals/VitalsEntryForm.tsx",
+          "operation": "create",
+          "description": "Create manual vitals entry form supporting BP (systolic/diastolic), glucose, SpO2, and heart rate; include the 4 generated vitals icons next to types; submit to backend (addVitalsReading). Use shadcn-ui form components and alerts. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/vitals/VitalsList.tsx",
+          "operation": "create",
+          "description": "Create a recent readings list/table for the patient (getVitalsReadings for the caller patient) with simple formatting and alert highlighting (normal/warning/critical styles from theme). Use shadcn-ui table/badge/alert components. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/patient/SOSButton.tsx",
+          "operation": "create",
+          "description": "Create an SOS button component that confirms intent and sends an emergency alert message via backend (sendEmergencyAlert). Use shadcn-ui dialog/alert components for confirmation and success/failure feedback. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/usePatientData.ts",
+          "operation": "create",
+          "description": "Add react-query hooks to fetch/update patient-specific data used on the dashboard: PatientProfile, VitalsReadings, MedicationReminders, Appointments, Alerts (as needed). Include polling/refresh patterns where appropriate (no WebSockets)."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire the Patient dashboard route behind RequireAuth + RoleGate so only authenticated users with patient role can access it; add navigation link(s) from the authenticated header."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Doctor/Clinician dashboard with patient roster, patient detail (vitals + alerts), and alert review acknowledgement UI.",
+      "acceptanceCriteria": [
+        "Doctor can view a list of patients linked to them.",
+        "Doctor can select a patient and view recent vitals readings in a table and/or simple chart over time.",
+        "Doctor can view an alerts feed including SOS events and abnormal-vitals notification events for linked patients.",
+        "Doctor can acknowledge/mark alerts as reviewed (persisted in backend)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/doctor/DoctorDashboard.tsx",
+          "operation": "create",
+          "description": "Create Doctor dashboard with patient roster (getMyPatients) and an alerts feed for linked patients (getMyPatientsAlerts). Use shadcn-ui layout components (cards, tables, badges, tabs). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/doctor/PatientDetail.tsx",
+          "operation": "create",
+          "description": "Create patient detail view for doctors that shows: patient profile summary (read-only), vitals timeline/table, alerts feed, and read-only meds/appointments panels (to support REQ-6 doctor view). Use shadcn-ui tabs/tables/alerts. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/doctor/PatientRoster.tsx",
+          "operation": "create",
+          "description": "Create a roster component listing linked patients and allowing selection/navigation to patient detail. Use shadcn-ui table/list components. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/doctor/AlertsFeed.tsx",
+          "operation": "create",
+          "description": "Create an alerts feed component that displays alerts with severity styling and filtering by patient; include UI affordance to mark as reviewed when backend capability is available (handle gracefully if not supported by current interface by disabling or showing informational message). Use shadcn-ui alert/badge/button components. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/doctor/VitalsTable.tsx",
+          "operation": "create",
+          "description": "Create a vitals table component for a selected patient (getVitalsReadings(patientId)) with simple time ordering and optional lightweight visualization (table-first MVP). Use shadcn-ui table components. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useDoctorData.ts",
+          "operation": "create",
+          "description": "Add react-query hooks for doctor data: getMyPatients, getMyPatientsAlerts, getVitalsReadings(patientId), getPatientProfile(patientId), and related loading/error states. Include refresh/polling patterns for alerts if needed (no WebSockets)."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire Doctor dashboard and doctor patient detail routes behind RequireAuth + RoleGate so only authenticated users with doctor role can access them; add navigation links from the authenticated header."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Medication reminders and follow-up appointments CRUD for patients; surfaced as upcoming items; doctor can view read-only on patient detail.",
+      "acceptanceCriteria": [
+        "Patient can create/edit/delete medication reminders with at least: name, dosage/instructions (free text), schedule (time(s) per day) and start/end or active flag.",
+        "Patient can create/edit/delete follow-up appointments with at least: date/time and notes/location/link (free text).",
+        "Patient dashboard shows upcoming medication times and upcoming appointments.",
+        "Doctor can view (read-only is acceptable for MVP) the patient’s reminders and appointments on the patient detail screen."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/medications/MedicationRemindersPanel.tsx",
+          "operation": "create",
+          "description": "Create patient-facing medication reminders panel that lists reminders (getMedicationReminders) and supports create/edit/delete via backend (addMedicationReminder/updateMedicationReminder/deleteMedicationReminder). Use shadcn-ui dialogs, forms, and tables. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/appointments/AppointmentsPanel.tsx",
+          "operation": "create",
+          "description": "Create patient-facing appointments panel that lists appointments (getAppointments) and supports create/edit/delete via backend (addAppointment/updateAppointment/deleteAppointment). Use shadcn-ui dialogs, date/time inputs (as simple text inputs if needed), and tables. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/doctor/PatientMedsAppointmentsReadOnly.tsx",
+          "operation": "create",
+          "description": "Create doctor-facing read-only panels for a selected patient to view reminders and appointments (getMedicationReminders/getAppointments) within the doctor PatientDetail page. Use shadcn-ui table/list components. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/patient/PatientDashboard.tsx",
+          "operation": "modify",
+          "description": "Compose MedicationRemindersPanel and AppointmentsPanel into the patient dashboard and ensure upcoming items are clearly visible (sorted by nextDue/dateTime). Use shadcn-ui badges/alerts for due-soon indicators. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/doctor/PatientDetail.tsx",
+          "operation": "modify",
+          "description": "Compose PatientMedsAppointmentsReadOnly into doctor patient detail page to satisfy doctor read-only requirement. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/usePatientData.ts",
+          "operation": "modify",
+          "description": "Extend patient data hooks to include CRUD mutations + cache invalidation for medication reminders and appointments."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Family Member access: patient grant/revoke; family dashboard shows read-only patient status (vitals, alerts, reminders, appointments).",
+      "acceptanceCriteria": [
+        "Patient can create an access grant for a specific family member identity and revoke it later.",
+        "Family member can see a list of patients who granted access to them.",
+        "Family member can open a patient and view recent vitals, alerts, and upcoming reminders/appointments in read-only mode.",
+        "Family member cannot create or modify vitals, reminders, appointments, thresholds, or alerts."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/patient/FamilyAccessManager.tsx",
+          "operation": "create",
+          "description": "Create patient UI to grant/revoke family access by entering a family member principal string; call backend (grantFamilyAccess/revokeFamilyAccess) and display current grants (getFamilyAccess). Use shadcn-ui forms, tables, and confirm dialogs. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/family/FamilyDashboard.tsx",
+          "operation": "create",
+          "description": "Create family member dashboard that lists patients who granted access (via backend-visible data available to family role) and allows navigation to a read-only patient status view. Use shadcn-ui list/table components. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/family/FamilyPatientStatus.tsx",
+          "operation": "create",
+          "description": "Create read-only patient status page for family members showing recent vitals (getVitalsReadings), alerts (getAlerts), and upcoming reminders/appointments (getMedicationReminders/getAppointments) for the selected patient. Ensure no create/edit/delete controls appear. Use shadcn-ui cards/tables/alerts. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/patient/PatientDashboard.tsx",
+          "operation": "modify",
+          "description": "Add FamilyAccessManager section to the patient dashboard onboarding/daily use. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useFamilyData.ts",
+          "operation": "create",
+          "description": "Add react-query hooks for family access flows: fetch granted patient list, and fetch read-only patient status bundles (vitals/alerts/reminders/appointments) for a selected patient; include error handling for unauthorized access."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire Family dashboard and family patient status routes behind RequireAuth + RoleGate (family role only), and add navigation from the authenticated header."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Home Nurse booking request: patient submits a request; doctor can view and mark reviewed (if supported) for linked patients.",
+      "acceptanceCriteria": [
+        "Patient can submit a home nurse booking request with at least: preferred date/time window and notes (free text).",
+        "Booking requests are persisted in backend and tied to patient.",
+        "Doctor can view a list of booking requests for linked patients and mark them as reviewed."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/patient/HomeNurseBookingForm.tsx",
+          "operation": "create",
+          "description": "Create patient booking request form with preferred date/time window and notes; submit to backend (addHomeNurseRequest) and show success/failure states. Use shadcn-ui form/dialog/alert components. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/doctor/HomeNurseRequestsList.tsx",
+          "operation": "create",
+          "description": "Create doctor-facing list view of home nurse requests for a selected patient (getHomeNurseRequests) and/or across linked patients via selection. If 'mark reviewed' backend capability is not available in the current interface, provide a UI-only reviewed toggle stored locally per session and clearly label it as non-persistent for MVP; otherwise, wire to backend review persistence. Use shadcn-ui table/badge/button components. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/patient/PatientDashboard.tsx",
+          "operation": "modify",
+          "description": "Add HomeNurseBookingForm into patient dashboard. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/doctor/PatientDetail.tsx",
+          "operation": "modify",
+          "description": "Add HomeNurseRequestsList into doctor patient detail view. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/usePatientData.ts",
+          "operation": "modify",
+          "description": "Extend patient hooks with booking request mutation and related cache invalidation/refetch."
+        },
+        {
+          "path": "frontend/src/hooks/useDoctorData.ts",
+          "operation": "modify",
+          "description": "Extend doctor hooks to fetch home nurse requests for selected patients and manage refresh patterns."
+        }
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "summary": "In-app Health Q&A chatbot UI using curated FAQs and safe fallback (no external AI services).",
+      "acceptanceCriteria": [
+        "Chat UI allows user to ask a question and receive a response from a predefined knowledge base (no external API calls).",
+        "Chatbot includes visible disclaimer text that it is not medical advice and to contact a clinician or use SOS for emergencies.",
+        "Responses are limited to the curated set; unknown questions return a safe fallback response."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/HealthChat.tsx",
+          "operation": "create",
+          "description": "Create a Health Q&A page with simple chat UI (question input + message history) that matches input against a curated local knowledge base (no external calls). Include prominent disclaimer text and a safe fallback response. Use shadcn-ui card/input/button/scroll-area components for layout. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/content/healthFaq.ts",
+          "operation": "create",
+          "description": "Add a curated, English-only FAQ/intent mapping dataset and guided prompts for post-discharge basics (wound care reminders, medication adherence, hydration, when to seek help, device measurement tips) with strict safe phrasing and emergency guidance."
+        },
+        {
+          "path": "frontend/src/lib/chatbot.ts",
+          "operation": "create",
+          "description": "Add deterministic matching logic (keyword/phrase + guided prompt selection) that returns only curated answers and a safe fallback; ensure no network requests are made."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire the Health Q&A page into authenticated navigation (available to logged-in users across roles unless restricted by product decision) and add a nav item in the authenticated header."
+        }
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "summary": "Distinct warm visual theme (non-blue/purple primary) applied consistently with accessible alert states.",
+      "acceptanceCriteria": [
+        "App has a consistent theme across login/onboarding, dashboards, and detail pages.",
+        "Alert states (normal/warning/critical) are visually distinct and accessible.",
+        "Theme does not rely on blue/purple as the primary palette."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/index.css",
+          "operation": "modify",
+          "description": "Update global CSS variables/Tailwind theme tokens to a warm, modern palette (e.g., teal/green/amber accents with neutral backgrounds) and define accessible alert colors for normal/warning/critical. Ensure primary is not blue/purple and contrast is acceptable."
+        },
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Ensure src-level CSS correctly loads the global theme (and any overrides) so all pages use the same typography/spacing/card/alert styling without modifying immutable entry files."
+        },
+        {
+          "path": "frontend/src/components/theme/AlertStyles.tsx",
+          "operation": "create",
+          "description": "Create a small helper (e.g., exported className maps) for normal/warning/critical alert styling that is reused across vitals, alerts feed, and SOS confirmations to keep visual consistency. Use shadcn-ui Alert component composition where appropriate. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/app/AppHeader.tsx",
+          "operation": "modify",
+          "description": "Apply the new theme tokens in header layout (background, borders, typography) and ensure logo placement is consistent across authenticated pages. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/LandingLogin.tsx",
+          "operation": "modify",
+          "description": "Apply the new theme tokens on the landing/login page (hero + login card) for coherent branding. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "summary": "Add generated brand/UI imagery as static assets and reference them in UI (logo, hero, 4 vitals icons).",
+      "acceptanceCriteria": [
+        "Images exist under frontend/public/assets/generated and are referenced by the UI.",
+        "Logo is displayed in the app header and/or login screen.",
+        "Hero/banner illustration is displayed on the landing/login screen.",
+        "Vitals icons are used next to vitals types on entry and/or display components."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/smartcare-logo.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated logo asset at this exact path for static usage in the UI (no backend routing)."
+        },
+        {
+          "path": "frontend/public/assets/generated/smartcare-hero.dim_1600x900.png",
+          "operation": "create",
+          "description": "Add the generated hero/banner illustration asset at this exact path for the landing/login screen."
+        },
+        {
+          "path": "frontend/public/assets/generated/icon-bp.dim_256x256.png",
+          "operation": "create",
+          "description": "Add the generated blood pressure icon asset at this exact path for vitals UI."
+        },
+        {
+          "path": "frontend/public/assets/generated/icon-glucose.dim_256x256.png",
+          "operation": "create",
+          "description": "Add the generated glucose icon asset at this exact path for vitals UI."
+        },
+        {
+          "path": "frontend/public/assets/generated/icon-spo2.dim_256x256.png",
+          "operation": "create",
+          "description": "Add the generated SpO2 icon asset at this exact path for vitals UI."
+        },
+        {
+          "path": "frontend/public/assets/generated/icon-hr.dim_256x256.png",
+          "operation": "create",
+          "description": "Add the generated heart rate icon asset at this exact path for vitals UI."
+        },
+        {
+          "path": "frontend/src/pages/LandingLogin.tsx",
+          "operation": "modify",
+          "description": "Reference frontend/public/assets/generated/smartcare-hero.dim_1600x900.png and frontend/public/assets/generated/smartcare-logo.dim_512x512.png in the landing/login layout. Use shadcn-ui layout components and verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/app/AppHeader.tsx",
+          "operation": "modify",
+          "description": "Reference frontend/public/assets/generated/smartcare-logo.dim_512x512.png in the authenticated header branding area. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/vitals/VitalsEntryForm.tsx",
+          "operation": "modify",
+          "description": "Reference and display the 4 vitals icons next to their respective vitals type selectors/labels: frontend/public/assets/generated/icon-bp.dim_256x256.png, frontend/public/assets/generated/icon-glucose.dim_256x256.png, frontend/public/assets/generated/icon-spo2.dim_256x256.png, frontend/public/assets/generated/icon-hr.dim_256x256.png. Verify the component's usage instructions before implementing."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,167 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "SmartCare Connect: a mobile + wearable remote patient monitoring system for post-discharge care, syncing vitals from connected devices to doctors, with reminders, alerts, and optional telehealth services.",
+  "architectural_notes": [
+    "System spans mobile app + device integrations + clinician notifications; requires secure health data transmission/storage."
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Minimal healthcare app logo mark with a caring/connected motif (smartcare-logo.dim_512x512.png)\n- Warm, modern banner illustration showing post-discharge monitoring at home (smartcare-hero.dim_1600x900.png)\n- Blood pressure cuff icon, simple flat style (icon-bp.dim_256x256.png)\n- Glucose meter icon, simple flat style (icon-glucose.dim_256x256.png)\n- Pulse oximeter icon, simple flat style (icon-spo2.dim_256x256.png)\n- Smartwatch heart rate icon, simple flat style (icon-hr.dim_256x256.png)",
+  "existing_features": [
+    {
+      "id": "feature-implement-internet-identity-sign-in-and-role-based-onboarding-so-a-user-can-register-as-a-patient-doctor-clinician-or-family-member-and-be-routed-to-the-correct-dashboard-after-login",
+      "title": "Implement Internet Identity sign-in and role-based onboarding so a user can register as a Patient, Doctor/Clinician, or Family Member, and be routed to the correct dashboard after login.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-a-patient-dashboard-that-supports-post-discharge-onboarding-and-daily-use-profile-summary-connected-devices-list-as-a-configurable-list-vitals-entry-manual-medication-reminders-follow-up-appointments-and-an-emergency-sos-button",
+      "title": "Build a Patient dashboard that supports post-discharge onboarding and daily use: profile summary, connected devices list (as a configurable list), vitals entry (manual), medication reminders, follow-up appointments, and an Emergency/SOS button.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-a-doctor-clinician-dashboard-with-patient-roster-patient-detail-view-vitals-timeline-table-and-alert-feed-for-emergency-and-abnormal-vitals-events",
+      "title": "Build a Doctor/Clinician dashboard with patient roster, patient detail view, vitals timeline/table, and alert feed for emergency and abnormal-vitals events.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-medication-reminders-and-follow-up-appointment-crud-patients-and-or-their-doctors-can-create-update-list-and-delete-medication-schedules-and-appointments-patient-ui-surfaces-upcoming-items",
+      "title": "Implement medication reminders and follow-up appointment CRUD: patients (and/or their doctors) can create, update, list, and delete medication schedules and appointments; patient UI surfaces upcoming items.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-family-member-access-patients-can-grant-revoke-a-family-member-s-read-only-access-to-their-status-recent-vitals-alerts-upcoming-reminders-appointments",
+      "title": "Add Family Member access: patients can grant/revoke a family member’s read-only access to their status (recent vitals + alerts + upcoming reminders/appointments).",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-home-nurse-booking-request-feature-patients-can-submit-a-booking-request-form-date-time-window-address-details-notes-and-doctors-can-view-submitted-requests-for-their-patients",
+      "title": "Add a Home Nurse booking request feature: patients can submit a booking request form (date/time window, address/details notes), and doctors can view submitted requests for their patients.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-provide-a-basic-in-app-health-q-a-chatbot-experience-implemented-without-external-ai-services-e-g-curated-faq-guided-prompts-safety-disclaimers-focused-on-post-discharge-basics",
+      "title": "Provide a basic in-app 'Health Q&A' chatbot experience implemented without external AI services (e.g., curated FAQ + guided prompts + safety disclaimers), focused on post-discharge basics.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-coherent-distinct-visual-theme-for-smartcare-connect-and-apply-it-consistently-across-pages-typography-color-palette-spacing-cards-and-alerts-avoid-a-blue-purple-default-look",
+      "title": "Create a coherent, distinct visual theme for SmartCare Connect and apply it consistently across pages (typography, color palette, spacing, cards, and alerts). Avoid a blue/purple default look.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-generated-brand-and-ui-imagery-as-static-assets-and-use-them-in-the-ui-no-backend-image-routing-app-logo-a-simple-hero-banner-illustration-for-the-landing-login-screen-and-4-vitals-type-icons",
+      "title": "Add generated brand and UI imagery as static assets and use them in the UI (no backend image routing): app logo, a simple hero/banner illustration for the landing/login screen, and 4 vitals-type icons.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Build patient mobile app for post-discharge monitoring and onboarding",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Integrate health devices (smart BP machine, glucometer, pulse oximeter, smartwatch) and collect vitals",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Automatically transmit collected health data to doctor/clinician view",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Medication reminders and follow-up appointment alerts",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Emergency alert/SOS button for patient",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Abnormal vitals detection and notifications to doctor",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "AI chatbot for basic health questions",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Video consultation option (telemedicine)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Family member access to patient status/data",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "Home nurse booking option",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-12",
+      "summary": "Create backend data models and persistence for users (role + profile), patient-doctor relationships, family access grants, vitals readings, medication reminders, follow-up appointments, emergency alerts, and notification events.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-15",
+      "summary": "Implement abnormal vitals detection rules in the backend and create a notification event when new readings exceed configured thresholds for that patient.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "SmartCare Connect",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

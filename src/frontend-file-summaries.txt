@@ -1,0 +1,8 @@
+{
+  "frontend/src/App.tsx": "Main application component with TanStack Router setup, role-based routing (patient/doctor/family), authentication guards using properly named React components, and theme provider integration.",
+  "frontend/src/pages/LandingLogin.tsx": "Landing page with hero section, feature highlights, generated assets, and Internet Identity login functionality with updated Tailwind CSS v3 class names (shrink-0 instead of flex-shrink-0).",
+  "frontend/src/components/vitals/VitalsList.tsx": "Displays patient vitals readings in a table with color-coded status badges using valid Badge variants (default/secondary/destructive) and custom className styling for warning states.",
+  "frontend/src/pages/doctor/DoctorDashboard.tsx": "Doctor dashboard showing patient roster, alert statistics, and recent alerts with proper enum handling for Variant_emergency_medication_vitals type.",
+  "frontend/src/pages/doctor/PatientDetail.tsx": "Detailed patient view for doctors showing profile, vitals, alerts, medications, appointments, and nurse requests with proper alert type enum handling.",
+  "frontend/src/pages/family/FamilyPatientStatus.tsx": "Read-only patient status view for family members displaying vitals, alerts, medications, and appointments with proper alert type enum handling."
+}

@@ -1,0 +1,250 @@
+{
+  "kind": "build_request",
+  "title": "SmartCare Connect MVP (remote patient monitoring web app)",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Implement Internet Identity sign-in and role-based onboarding so a user can register as a Patient, Doctor/Clinician, or Family Member, and be routed to the correct dashboard after login.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "A mobile + wearable based system that helps doctors monitor patients after hospital discharge."
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can sign in with Internet Identity.",
+        "On first login, user selects a role: Patient, Doctor/Clinician, or Family Member.",
+        "After role selection, user is routed to the corresponding dashboard on subsequent logins.",
+        "Unauthenticated users cannot access dashboards."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Create backend data models and persistence for users (role + profile), patient-doctor relationships, family access grants, vitals readings, medication reminders, follow-up appointments, emergency alerts, and notification events.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Family member access",
+          "Medicine reminders",
+          "Follow-up appointment alerts",
+          "Emergency alert button",
+          "If health values go abnormal → doctor gets notification."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend can store and retrieve user profiles with roles.",
+        "Backend can link a patient to one or more doctors/clinicians.",
+        "Backend can store family access grants linking a family member to a patient.",
+        "Backend can store vitals readings with timestamp, type, value, and optional notes/source.",
+        "Backend can store medication reminders and follow-up appointments for a patient.",
+        "Backend can store emergency/SOS alerts and abnormal-vitals notification events."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Build a Patient dashboard that supports post-discharge onboarding and daily use: profile summary, connected devices list (as a configurable list), vitals entry (manual), medication reminders, follow-up appointments, and an Emergency/SOS button.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Patient gets a mobile app after discharge.",
+          "App connects to: Smart BP machine, Glucometer, Pulse oximeter, Smartwatch",
+          "Medicine reminders",
+          "Follow-up appointment alerts",
+          "Emergency alert button"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Patient can view and edit basic profile fields relevant to monitoring (e.g., display name, care team).",
+        "Patient can add/edit/remove a list of 'connected devices' entries (name/type) as configuration.",
+        "Patient can add a vitals reading manually for supported types (BP systolic/diastolic, glucose, SpO2, heart rate).",
+        "Patient can see a list of upcoming medication reminders and follow-up appointments pulled from backend.",
+        "Pressing SOS creates an emergency alert event stored in backend and visible to the assigned doctor(s)."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Build a Doctor/Clinician dashboard with patient roster, patient detail view, vitals timeline/table, and alert feed for emergency and abnormal-vitals events.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Health data automatically sent to doctor.",
+          "If health values go abnormal → doctor gets notification."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Doctor can view a list of patients linked to them.",
+        "Doctor can select a patient and view recent vitals readings in a table and/or simple chart over time.",
+        "Doctor can view an alerts feed including SOS events and abnormal-vitals notification events for linked patients.",
+        "Doctor can acknowledge/mark alerts as reviewed (persisted in backend)."
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Implement abnormal vitals detection rules in the backend and create a notification event when new readings exceed configured thresholds for that patient.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "If health values go abnormal → doctor gets notification."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend supports configurable thresholds per patient for each vitals type (with sensible defaults).",
+        "When a new vitals reading is saved, backend evaluates thresholds and, if abnormal, creates an abnormal-vitals notification event tied to the patient and reading.",
+        "Abnormal events are retrievable by the doctor dashboard for linked patients."
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Implement medication reminders and follow-up appointment CRUD: patients (and/or their doctors) can create, update, list, and delete medication schedules and appointments; patient UI surfaces upcoming items.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Medicine reminders",
+          "Follow-up appointment alerts"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Patient can create/edit/delete medication reminders with at least: name, dosage/instructions (free text), schedule (time(s) per day) and start/end or active flag.",
+        "Patient can create/edit/delete follow-up appointments with at least: date/time and notes/location/link (free text).",
+        "Patient dashboard shows upcoming medication times and upcoming appointments.",
+        "Doctor can view (read-only is acceptable for MVP) the patient’s reminders and appointments on the patient detail screen."
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Add Family Member access: patients can grant/revoke a family member’s read-only access to their status (recent vitals + alerts + upcoming reminders/appointments).",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Family member access"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Patient can create an access grant for a specific family member identity and revoke it later.",
+        "Family member can see a list of patients who granted access to them.",
+        "Family member can open a patient and view recent vitals, alerts, and upcoming reminders/appointments in read-only mode.",
+        "Family member cannot create or modify vitals, reminders, appointments, thresholds, or alerts."
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "Add a Home Nurse booking request feature: patients can submit a booking request form (date/time window, address/details notes), and doctors can view submitted requests for their patients.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Home nurse booking option"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Patient can submit a home nurse booking request with at least: preferred date/time window and notes (free text).",
+        "Booking requests are persisted in backend and tied to patient.",
+        "Doctor can view a list of booking requests for linked patients and mark them as reviewed."
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "text": "Provide a basic in-app 'Health Q&A' chatbot experience implemented without external AI services (e.g., curated FAQ + guided prompts + safety disclaimers), focused on post-discharge basics.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "AI chatbot for basic health questions"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Chat UI allows user to ask a question and receive a response from a predefined knowledge base (no external API calls).",
+        "Chatbot includes visible disclaimer text that it is not medical advice and to contact a clinician or use SOS for emergencies.",
+        "Responses are limited to the curated set; unknown questions return a safe fallback response."
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "text": "Create a coherent, distinct visual theme for SmartCare Connect and apply it consistently across pages (typography, color palette, spacing, cards, and alerts). Avoid a blue/purple default look.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "SmartCare Connect"
+        ]
+      },
+      "acceptanceCriteria": [
+        "App has a consistent theme across login/onboarding, dashboards, and detail pages.",
+        "Alert states (normal/warning/critical) are visually distinct and accessible.",
+        "Theme does not rely on blue/purple as the primary palette."
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "text": "Add generated brand and UI imagery as static assets and use them in the UI (no backend image routing): app logo, a simple hero/banner illustration for the landing/login screen, and 4 vitals-type icons.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "SmartCare Connect"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Images exist under frontend/public/assets/generated and are referenced by the UI.",
+        "Logo is displayed in the app header and/or login screen.",
+        "Hero/banner illustration is displayed on the landing/login screen.",
+        "Vitals icons are used next to vitals types on entry and/or display components."
+      ]
+    }
+  ],
+  "constraints": [
+    "Backend must remain a single Motoko actor (all logic in backend/main.mo).",
+    "Do not edit frontend paths marked immutable by the platform: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui (compose instead).",
+    "Use English for any user-facing text.",
+    "No third-party authentication providers; only Internet Identity is supported.",
+    "No external databases or third-party AI/LLM API integrations.",
+    "No WebSockets or real-time chat; notifications must be implemented via polling or standard query refresh patterns."
+  ],
+  "nonGoals": [
+    "Native mobile app store packaging and true hardware wearable/Bluetooth integrations (MVP will support manual entry and configurable device list only).",
+    "Full video consultation/WebRTC calling; if needed later, support can be limited to storing/displaying an external meeting link in appointments.",
+    "Clinical-grade decision support or diagnosis; abnormal detection is threshold-based and informational only.",
+    "Payments or insurance/billing workflows."
+  ],
+  "imageRequirements": {
+    "required": [
+      "Minimal healthcare app logo mark with a caring/connected motif (smartcare-logo.dim_512x512.png)",
+      "Warm, modern banner illustration showing post-discharge monitoring at home (smartcare-hero.dim_1600x900.png)",
+      "Blood pressure cuff icon, simple flat style (icon-bp.dim_256x256.png)",
+      "Glucose meter icon, simple flat style (icon-glucose.dim_256x256.png)",
+      "Pulse oximeter icon, simple flat style (icon-spo2.dim_256x256.png)",
+      "Smartwatch heart rate icon, simple flat style (icon-hr.dim_256x256.png)"
+    ],
+    "edits": []
+  }
+}

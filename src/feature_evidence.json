@@ -1,0 +1,208 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-implement-internet-identity-sign-in-and-role-based-onboarding-so-a-user-can-register-as-a-patient-doctor-clinician-or-family-member-and-be-routed-to-the-correct-dashboard-after-login",
+      "featureTitle": "Implement Internet Identity sign-in and role-based onboarding so a user can register as a Patient, Doctor/Clinician, or Family Member, and be routed to the correct dashboard after login.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/app/AppHeader.tsx",
+        "frontend/src/hooks/useCurrentUserProfile.ts",
+        "frontend/src/hooks/useRoleRouting.ts",
+        "frontend/src/index.css",
+        "frontend/src/pages/LandingLogin.tsx",
+        "frontend/src/pages/OnboardingRole.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-build-a-patient-dashboard-that-supports-post-discharge-onboarding-and-daily-use-profile-summary-connected-devices-list-as-a-configurable-list-vitals-entry-manual-medication-reminders-follow-up-appointments-and-an-emergency-sos-button",
+      "featureTitle": "Build a Patient dashboard that supports post-discharge onboarding and daily use: profile summary, connected devices list (as a configurable list), vitals entry (manual), medication reminders, follow-up appointments, and an Emergency/SOS button.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/patient/ConnectedDevicesEditor.tsx",
+        "frontend/src/components/patient/PatientProfileCard.tsx",
+        "frontend/src/components/patient/SOSButton.tsx",
+        "frontend/src/components/vitals/VitalsEntryForm.tsx",
+        "frontend/src/components/vitals/VitalsList.tsx",
+        "frontend/src/pages/patient/PatientDashboard.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-build-a-doctor-clinician-dashboard-with-patient-roster-patient-detail-view-vitals-timeline-table-and-alert-feed-for-emergency-and-abnormal-vitals-events",
+      "featureTitle": "Build a Doctor/Clinician dashboard with patient roster, patient detail view, vitals timeline/table, and alert feed for emergency and abnormal-vitals events.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/pages/doctor/DoctorDashboard.tsx",
+        "frontend/src/pages/doctor/PatientDetail.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-medication-reminders-and-follow-up-appointment-crud-patients-and-or-their-doctors-can-create-update-list-and-delete-medication-schedules-and-appointments-patient-ui-surfaces-upcoming-items",
+      "featureTitle": "Implement medication reminders and follow-up appointment CRUD: patients (and/or their doctors) can create, update, list, and delete medication schedules and appointments; patient UI surfaces upcoming items.",
+      "files": [
+        "frontend/src/components/appointments/AppointmentsPanel.tsx",
+        "frontend/src/components/medications/MedicationRemindersPanel.tsx",
+        "frontend/src/pages/doctor/PatientDetail.tsx",
+        "frontend/src/pages/patient/PatientDashboard.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-family-member-access-patients-can-grant-revoke-a-family-member-s-read-only-access-to-their-status-recent-vitals-alerts-upcoming-reminders-appointments",
+      "featureTitle": "Add Family Member access: patients can grant/revoke a family member’s read-only access to their status (recent vitals + alerts + upcoming reminders/appointments).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/patient/FamilyAccessManager.tsx",
+        "frontend/src/pages/family/FamilyDashboard.tsx",
+        "frontend/src/pages/family/FamilyPatientStatus.tsx",
+        "frontend/src/pages/patient/PatientDashboard.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-home-nurse-booking-request-feature-patients-can-submit-a-booking-request-form-date-time-window-address-details-notes-and-doctors-can-view-submitted-requests-for-their-patients",
+      "featureTitle": "Add a Home Nurse booking request feature: patients can submit a booking request form (date/time window, address/details notes), and doctors can view submitted requests for their patients.",
+      "files": [
+        "frontend/src/components/patient/HomeNurseBookingForm.tsx",
+        "frontend/src/pages/doctor/PatientDetail.tsx",
+        "frontend/src/pages/patient/PatientDashboard.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-provide-a-basic-in-app-health-q-a-chatbot-experience-implemented-without-external-ai-services-e-g-curated-faq-guided-prompts-safety-disclaimers-focused-on-post-discharge-basics",
+      "featureTitle": "Provide a basic in-app 'Health Q&A' chatbot experience implemented without external AI services (e.g., curated FAQ + guided prompts + safety disclaimers), focused on post-discharge basics.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/content/healthFaq.ts",
+        "frontend/src/lib/chatbot.ts",
+        "frontend/src/pages/HealthChat.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-9"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-coherent-distinct-visual-theme-for-smartcare-connect-and-apply-it-consistently-across-pages-typography-color-palette-spacing-cards-and-alerts-avoid-a-blue-purple-default-look",
+      "featureTitle": "Create a coherent, distinct visual theme for SmartCare Connect and apply it consistently across pages (typography, color palette, spacing, cards, and alerts). Avoid a blue/purple default look.",
+      "files": [
+        "frontend/index.css",
+        "frontend/src/components/app/AppHeader.tsx",
+        "frontend/src/components/theme/AlertStyles.tsx",
+        "frontend/src/index.css",
+        "frontend/src/pages/LandingLogin.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-10"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-generated-brand-and-ui-imagery-as-static-assets-and-use-them-in-the-ui-no-backend-image-routing-app-logo-a-simple-hero-banner-illustration-for-the-landing-login-screen-and-4-vitals-type-icons",
+      "featureTitle": "Add generated brand and UI imagery as static assets and use them in the UI (no backend image routing): app logo, a simple hero/banner illustration for the landing/login screen, and 4 vitals-type icons.",
+      "files": [
+        "frontend/src/components/app/AppHeader.tsx",
+        "frontend/src/components/vitals/VitalsEntryForm.tsx",
+        "frontend/src/pages/LandingLogin.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-11"
+      ],
+      "confidence": "high"
+    }
+  ]
+}
